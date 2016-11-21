@@ -1,6 +1,16 @@
+/**
+ *     /:主页
+ *     /reg:注册
+ *     /login:登录
+ *     /post:发表
+ */
+var userDao = require('../dao/userDao');
+
 module.exports = function(app){
     app.get('/',function(req,res){
-        res.render('index',{title:'主页'});
+        userDao.showAll(req,res);
+
+        //res.render('index',{title:'主页'});
     });
 
     app.get('/reg',function(req,res){
@@ -15,6 +25,7 @@ module.exports = function(app){
     });
 
     app.post('/login',function(req,res){
+
     });
 
     app.get('/post',function(req,res){
