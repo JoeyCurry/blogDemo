@@ -13,12 +13,19 @@ module.exports = function(app){
         //res.render('index',{title:'主页'});
     });
 
-    app.get('/reg',function(req,res){
-        res.render('index',{title:'注册'});
+    app.post('/register',function(req,res){
+        userDao.add(req,res)
+        //res.send('index',{title:'注册'});
     });
 
-    app.post('/reg',function(req,res){
+    app.get('/register',function(req,res){
+        //.add(req,res)
+        //res.render('index',{title:'注册'});
+        console.log(req,res);
     });
+
+    // app.post('/reg',function(req,res){
+    // });
 
     app.get('/login',function(req,res){
         res.render('index',{title:'登录'});

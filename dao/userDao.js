@@ -2,7 +2,6 @@ var mysql = require('mysql');
 var $conf = require('../conf/db');
 var $util = require('../util/util');
 var $sql = require('./userSqlMapping');
-
 //使用连接池
 var pool = mysql.createPool($util.extend({},$conf.mysql));
 
@@ -10,22 +9,22 @@ var pool = mysql.createPool($util.extend({},$conf.mysql));
 var jsonWrite = function(res,ret){
     if (typeof ret === 'undefined') {
         res.json({
-            code:'0',
+            code:0,
             msg:'failed'
         });
     } else {
+        console.log("返回",ret);
         res.json(ret);
     }
 };
-
-
 
 module.exports = {
     //注册用户，向user表中添加数据
     add: function (req,res,next){
         pool.getConnection(function(err,connection){
             //获取前台参数
-            var param = req.query || req.params;
+            var param = req.body;
+            console.log("register",param);
             var user_id;
             //根据pk生成user_id
             //'select max(pk) from user'
@@ -41,14 +40,20 @@ module.exports = {
                     //deleted,register_time) VALUES (?,?,?,?,?)',
                     connection.query(
                         $sql.insert,
-                        [user_id,param.name,param.password,false,new Date().toLocaleString()],
+                        [user_id,param.userName,param.password,false,new Date().toLocaleString(),param.userName],
                         function(err,result){
                             console.log('err',err);
                             console.log('result',result);
                             if (result) {
                                 result = {
                                     code:200,
-                                    msg:'注册成功'
+                                    msg:'success',
+                                    data:{
+                                        userMsg:{
+                                            userName:param.userName,
+                                            userId:user_id
+                                        }
+                                    }
                                 };
                             }
                             console.log("result",result);
@@ -77,8 +82,8 @@ module.exports = {
               }
             })
         })
-    }
-    
+    },
+
 
 
 };
