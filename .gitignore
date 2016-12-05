@@ -1,0 +1,23 @@
+# node modules
+node_modules/ 
+npm-debug.log
+dest/
+dist/
+
+# ziped tar files
+*.tar.gz
+*tgz
+
+# nohup Fiel
+nohup
+
+#temperary files
+*.bak
+*.swp
+
+# compiled file 
+*.so
+eggs/
+.eggs/
+*.egg 
+
