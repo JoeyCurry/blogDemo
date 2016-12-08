@@ -1,13 +1,9 @@
-var mysql = require('mysql');
-var $conf = require('../conf/db');
-var $util = require('../util/util');
-var $sql = require('./userSqlMapping');
-// import mysql from 'mysql';
-// import $conf from '../conf/db';
-// import $util from '../util/util';
-// import $sql from './userSqlMapping';
+import mysql from 'mysql';
+import $conf from '../conf/db';
+import $util from '../util/util';
+import $sql from './userSqlMapping';
 //使用连接池
-var pool = mysql.createPool($util.extend({},$conf.mysql));
+let pool = mysql.createPool($util.extend({},$conf.mysql));
 
 //向前台返回JSON方法的简单封装
 var jsonWrite = function(res,ret){
