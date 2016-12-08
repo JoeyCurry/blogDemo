@@ -2,6 +2,10 @@ var mysql = require('mysql');
 var $conf = require('../conf/db');
 var $util = require('../util/util');
 var $sql = require('./userSqlMapping');
+// import mysql from 'mysql';
+// import $conf from '../conf/db';
+// import $util from '../util/util';
+// import $sql from './userSqlMapping';
 //使用连接池
 var pool = mysql.createPool($util.extend({},$conf.mysql));
 
@@ -13,10 +17,28 @@ var jsonWrite = function(res,ret){
             msg:'failed'
         });
     } else {
-        console.log("返回",ret);
         res.json(ret);
     }
 };
+
+// function getUserInfo(connection,user_id){
+//     connection.query($sql.queryById,[user_id],function(err,result){
+//         console.log('err',err);
+//         console.log('result',result);
+//         if (result) {
+//             result = {
+//                 code:200,
+//                 msg:'success',
+//                 data:{
+//                     userMsg:{
+//                         userName:param.userName,
+//                         userId:user_id
+//                     }
+//                 }
+//             }
+//         }
+//     })
+// }
 
 module.exports = {
     //注册用户，向user表中添加数据
@@ -25,6 +47,12 @@ module.exports = {
             //获取前台参数
             var param = req.body;
             console.log("register",param);
+            connection.query($sql.queryByName,param.userName,function(err,result){
+                console.log(result);
+                if (true) {
+
+                }
+            })
             var user_id;
             //根据pk生成user_id
             //'select max(pk) from user'
@@ -36,6 +64,7 @@ module.exports = {
                     console.log('user_id',user_id);
                     console.log('time',new Date().toLocaleString());
                     //建立连接，向表中插入值
+
                     //insert:'INSERT INTO user(user_id, user_name, password,
                     //deleted,register_time) VALUES (?,?,?,?,?)',
                     connection.query(
@@ -45,22 +74,32 @@ module.exports = {
                             console.log('err',err);
                             console.log('result',result);
                             if (result) {
-                                result = {
-                                    code:200,
-                                    msg:'success',
-                                    data:{
-                                        userMsg:{
-                                            userName:param.userName,
-                                            userId:user_id
-                                        }
+                                //获取用户信息回传给前端
+                                connection.query($sql.queryById,[user_id],function(err,result){
+                                    console.log('idresult',result);
+                                    let user_data = eval(JSON.stringify(result));
+                                    console.log('user_data',user_data);
+                                    result = {
+                                       code:200,
+                                       msg:'success',
+                                       data:{
+                                           userMsg:{
+                                               userName:user_data[0].user_name,
+                                               userId:user_data[0].user_id,
+                                               userHead:user_data[0].user_head,
+                                               userNickname:user_data[0].nickname,
+                                                }
+                                            }
+                                        };
                                     }
-                                };
+                                );
                             }
-                            console.log("result",result);
-                            jsonWrite(res,result);
-                            connection.release();
+                            // console.log("result",result);
+                            // jsonWrite(res,result);
+                             connection.release();
                         }
                     );
+
                 }
 
             });

@@ -8,7 +8,9 @@ var user = {
     delete:'update user set deleted = true',
     queryLastPk:'SELECT pk FROM user order by pk desc',
     queryById:'select * from user where user_id=?',
-    queryAll:'select * from user'
+    queryByName:'select * from user where user_name=?',
+    queryAll:'select * from user',
+
 }
 
 module.exports = user;
