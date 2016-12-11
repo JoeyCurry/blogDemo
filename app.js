@@ -1,15 +1,12 @@
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
+import express from 'express';
+import path from 'path';
+import favicon from 'serve-favicon';
+import logger from 'morgan';
+import cookieParser from 'cookie-parser';
+import bodyParser from 'body-parser';
+import routes from './routes/index'
 
-var routes = require('./routes/index');
-
-
-
-var app = express();
+let app = express();
 
 //设置跨域访问
 app.all('*', function(req, res, next) {
@@ -23,7 +20,7 @@ app.all('*', function(req, res, next) {
 });
 
 // view engine setup
-app.set('port',process.env.PORT || 3000);
+app.set('port',process.env.PORT || 8000);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 // uncomment after placing your favicon in /public
@@ -40,4 +37,5 @@ app.listen(app.get('port'),function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
 
-module.exports = app;
+// module.exports = app;
+export default app;

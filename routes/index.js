@@ -4,8 +4,10 @@
  *     /login:登录
  *     /post:发表
  */
-var userDao = require('../dao/userDao');
+// var userDao = require('../dao/userDao');
+import User from '../dao/userDao.js'
 
+let user = new User();
 module.exports = function(app){
     app.get('/',function(req,res){
         userDao.showAll(req,res);
@@ -14,8 +16,7 @@ module.exports = function(app){
     });
 
     app.post('/register',function(req,res){
-        userDao.add(req,res)
-        //res.send('index',{title:'注册'});
+        user.register(req,res);
     });
 
     app.get('/register',function(req,res){
