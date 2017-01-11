@@ -10,9 +10,8 @@ import User from '../dao/userDao.js'
 let user = new User();
 module.exports = function(app){
     app.get('/',function(req,res){
-        userDao.showAll(req,res);
 
-        //res.render('index',{title:'主页'});
+        res.render('index',{title:'主页'});
     });
 
     app.post('/register',function(req,res){
